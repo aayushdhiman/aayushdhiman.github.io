@@ -1,1 +1,6 @@
-did:plc:cxhhotrqk2diyhmirpmln34z
+Host:
+_atproto
+Type:
+TXT
+Value:
+did=did:plc:cxhhotrqk2diyhmirpmln34z
