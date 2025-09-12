@@ -3,7 +3,7 @@
 import { AppShell, Container, Text, Stack, Flex, Divider } from "@mantine/core";
 import Header from "~/app/_components/Header";
 import TypingTitle from "~/app/_components/TypingTitle";
-import RecentMusic from "./_components/spotify/RecentMusic";
+// import RecentMusic from "./_components/spotify/RecentMusic";
 
 export default function Page() {
   return (
@@ -29,7 +29,7 @@ export default function Page() {
               <Divider my="sm" />
 
               {/* Spotify section */}
-              <RecentMusic />
+              {/* <RecentMusic /> */}
             </Stack>
           </Container>
         </Flex>

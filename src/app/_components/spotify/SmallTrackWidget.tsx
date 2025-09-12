@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Group, Text, Image, Anchor } from "@mantine/core";
+import { Card, Group, Image, Text, Anchor } from "@mantine/core";
 
 export type SmallTrackProps = {
     title: string;
@@ -15,6 +15,8 @@ export default function SmallTrackWidget({
     image,
     externalUrl,
 }: SmallTrackProps) {
+    const alt = `${title} — ${artists} (cover art)`;
+
     return (
         <Card withBorder radius="md" p="sm">
             <Group wrap="nowrap" gap="sm" align="center">
@@ -23,7 +25,7 @@ export default function SmallTrackWidget({
                     w={56}
                     h={56}
                     radius="sm"
-                    alt={`${title} cover`}
+                    alt={alt}
                     fallbackSrc="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='100%25' height='100%25' fill='%23ddd'/%3E%3C/svg%3E"
                 />
                 <div style={{ minWidth: 0 }}>
@@ -36,7 +38,9 @@ export default function SmallTrackWidget({
                             title
                         )}
                     </Text>
-                    <Text size="xs" c="dimmed" lineClamp={1}>{artists}</Text>
+                    <Text size="xs" c="dimmed" lineClamp={1}>
+                        {artists}
+                    </Text>
                 </div>
             </Group>
         </Card>

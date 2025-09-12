@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Grid, Stack, Alert, Loader, Center } from "@mantine/core";
+import { Alert, Center, Grid, Loader, Stack } from "@mantine/core";
 import LargeTrackWidget from "~/app/_components/spotify/LargeTrackWidget";
 import SmallTrackWidget from "~/app/_components/spotify/SmallTrackWidget";
 
@@ -16,34 +16,53 @@ type Track = {
     playedAt: string;
 };
 
+type ApiResponse =
+    | { now: Track | null; next: Track[] }
+    | { error: string };
+
 export default function RecentMusic() {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [now, setNow] = useState<Track | null>(null);
     const [next, setNext] = useState<Track[]>([]);
 
     useEffect(() => {
         let mounted = true;
-        (async () => {
+
+        const load = async () => {
             try {
-                const res = await fetch("/api/spotify/recently-played", { cache: "no-store" });
-                const json = await res.json();
+                const res = await fetch("/api/spotify/recently-played", {
+                    cache: "no-store",
+                });
+                const json = (await res.json()) as ApiResponse;
+
                 if (!res.ok) {
-                    throw new Error(json?.error ?? "Failed to load Spotify data");
+                    const message = "error" in json ? json.error : "Failed to fetch";
+                    throw new Error(message);
                 }
+
                 if (mounted) {
-                    setNow(json.now ?? null);
-                    setNext(Array.isArray(json.next) ? json.next : []);
+                    if ("now" in json && "next" in json) {
+                        setNow(json.now ?? null);
+                        setNext(Array.isArray(json.next) ? json.next : []);
+                    }
                     setLoading(false);
                 }
-            } catch (e: any) {
+            } catch (e: unknown) {
                 if (mounted) {
-                    setError(e.message || "Unexpected error");
+                    const message =
+                        e instanceof Error ? e.message : "Unexpected error loading Spotify";
+                    setError(message);
                     setLoading(false);
                 }
             }
-        })();
-        return () => { mounted = false; };
+        };
+
+        void load();
+
+        return () => {
+            mounted = false;
+        };
     }, []);
 
     if (loading) {
