@@ -1,7 +1,6 @@
 // app/about/page.tsx
 "use client";
 import { AppShell } from "@mantine/core";
-import type { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
 import Header from "~/app/_components/Header";
@@ -44,7 +43,7 @@ export default function AboutPage() {
                             marginBottom: 32,
                         }}
                     >
-                        oh, the places you'll go...
+                        oh, the places you&nbsp;ll go...
                     </p>
 
                     {/* Collage */}
