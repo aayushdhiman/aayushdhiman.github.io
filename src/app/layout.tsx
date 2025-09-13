@@ -1,18 +1,23 @@
 // app/layout.tsx
 import "@mantine/core/styles.css";
-import { MantineProvider, ColorSchemeScript, createTheme } from "@mantine/core";
+import {
+  MantineProvider,
+  ColorSchemeScript,
+  createTheme,
+  AppShell,
+  AppShellHeader,   // ← direct components
+  AppShellMain,     // ← direct components
+} from "@mantine/core";
 import type { Metadata } from "next";
+import Header from "~/app/_components/Header";
 import Footer from "./_components/Footer";
-import Header from "./_components/Header";
 
 export const metadata: Metadata = {
-  title: "Developer Portfolio",
-  description: "My work, projects, and contact info",
+  title: "Aayush Dhiman",
+  description: "Portfolio",
 };
 
-const theme = createTheme({
-  fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif",
-});
+const theme = createTheme({});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,9 +27,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
-          <Header />
-          {children}
-          <Footer />
+          <AppShell header={{ height: 56 }} padding="lg">
+            <AppShellHeader>
+              <Header />
+            </AppShellHeader>
+            <AppShellMain>{children}</AppShellMain>
+            <AppShell footer={{ height: 56 }} padding="lg">
+              <Footer />
+            </AppShell>
+          </AppShell>
         </MantineProvider>
       </body>
     </html>
